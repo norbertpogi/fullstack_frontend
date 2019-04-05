@@ -25,16 +25,31 @@ export class WelcomeComponent implements OnInit {
   }
 
    getWelcomeMessage() {
-    console.log(this.service.executeHelloWoBeanService());
+    //console.log(this.service.executeHelloWoBeanService());
     this.service.executeHelloWoBeanService().subscribe(
-      response => this.handleSuccessfulResponse(response)
+      response => this.handleSuccessfulResponse(response),
+      error => this.handleErrorResponse(error)
      );
-     console.log('...... last line of getWelcomeMessage');
+     //console.log('...... last line of getWelcomeMessage');
+  }
+
+  getWelcomeMessageById() {
+    this.service.executeHelloBeanServiceWithId(this.name).subscribe(
+      response => this.handleSuccessfulResponse(response),
+      error => this.handleErrorResponse(error)
+    );
+
   }
 
   handleSuccessfulResponse(response) {
-    console.log('............... ', response.message);
     this.welcomeMessage = response.message;
+  }
+  handleErrorResponse(error) {
+    // console.log('1111111111111111111111 ', error);
+    // console.log('22222222222222222222 ', error.error);
+    // console.log('33333333333333333333 ', error.error.message);
+    this.welcomeMessage = error.error.message;
+
   }
 
 }

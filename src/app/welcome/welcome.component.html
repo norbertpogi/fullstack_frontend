@@ -1,15 +1,16 @@
 <h1>Welcome</h1>
-<div class ="container">
+<div class="container">
   Welcome {{name}}. you can manage your todos <a [routerLink]="['/todos']">here</a>
 </div>
 <div clas="container">
   Click here to get a customized
   <button (click)="getWelcomeMessage()" class="btn btn-success">Get Welcome</button>
+  <button (click)="getWelcomeMessageById()" class="btn btn-success">Get WelcomeById</button>
 </div>
 <BR><BR>
-<div clas="container" *ngIf="welcomeMessage">  
+<div clas="container" *ngIf="welcomeMessage">
   <h1>You customize message</h1>
-  <p>    
-  {{welcomeMessage}}
-</p>
+  <p>
+    {{welcomeMessage}}
+  </p>  
 </div>

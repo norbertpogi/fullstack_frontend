@@ -1,19 +1,39 @@
+<div class="alert alert-success" *ngIf="successfullMessage">{{successfullMessage}}</div>
 <h1>My Todo's</h1>
 <div class="container">
-<table class="table">  
-  <thead>
-    <tr>      
-      <th>Description</th>
-      <th>Target Date</th>
-      <th>is Completed</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let todo of todos">      
-      <td>{{todo.description}}</td>
-      <td>{{todo.targetDate | date }}</td>
-      <td>{{todo.done}}</td>
-    </tr>
-  </tbody>
-</table>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Target Date</th>
+        <th>is Completed</th>
+        <th>Actions</th>
+      </tr>
+      <tr>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let todo of todos">
+        <td>{{todo.description}}</td>
+        <td>{{todo.targetDate | date }}</td>
+        <td>{{todo.done}}</td>
+        <td>
+          <button (click)="deleteTodo(todo.id)" class="btn btn-warning">delete</button>
+          &nbsp;
+          <button  class="btn btn-success" data-toggle="modal" data-target="#myModal">update</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
+
+  
+<rsm-modal modalID="myModal" modalTitle="Are you sure you want to delete?">
+    <div>
+      <button type="button" class="btn btn-grey" data-dismiss="modal">Cancel</button>
+      <button type="submit" class="btn btn-sol" data-dismiss="modal" (click)="delete(formData.id, $event)">Ok</button>
+    </div>
+  </rsm-modal>
+
+

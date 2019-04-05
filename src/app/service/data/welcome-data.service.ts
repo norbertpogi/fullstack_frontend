@@ -18,4 +18,11 @@ export class WelcomeDataService {
     const endpoint = 'http://localhost:8080/hello-world-bean';
     return this.http.get<HellWordBean>(endpoint);
   }
+
+  //http://localhost:8080/hello-world-bean/path-variable/becomeFullStack
+  executeHelloBeanServiceWithId(name) {
+    const endpoint = `http://localhost:8080/hello-world-bean/path-variable/${name}`;
+    return this.http.get<HellWordBean>(endpoint);
+  }
+
 }

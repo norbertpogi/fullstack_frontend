@@ -12,6 +12,8 @@ import { FooterComponent } from './footer/footer.component';
 import { LogoutComponent } from './logout/logout.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ModalComponent } from './shared/modal/modal.component';
+import { SharedModule } from './shared/shared.module';
+import { TodoComponent } from './todo/todo.component';
 
 @NgModule({
   declarations: [
@@ -23,15 +25,19 @@ import { ModalComponent } from './shared/modal/modal.component';
     MenuComponent,
     FooterComponent,
     LogoutComponent,
-    ModalComponent,
+    TodoComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    SharedModule,
+  ],
+  bootstrap: [ AppComponent ],
+  exports: [
+    ModalComponent,
   ],
   providers: [],
-  bootstrap: [AppComponent]
 })
 export class AppModule { }

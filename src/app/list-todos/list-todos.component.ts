@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { TodoDataService } from '../service/data/todo-data.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalComponent } from '../shared/modal/modal.component';
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 export class Todo {
   constructor(
@@ -7,7 +11,7 @@ export class Todo {
     public description: any,
     public done: boolean,
     public targetDate: Date
-  ) {}
+  ) { }
 }
 
 @Component({
@@ -16,23 +20,21 @@ export class Todo {
   styleUrls: ['./list-todos.component.scss']
 })
 export class ListTodosComponent implements OnInit {
-todos: Todo[];
-
-  // todos = [
-  //   new Todo(1, 'Learn to dance', false, new Date()),
-  //   new Todo(2, 'become expert at angular', false, new Date()),
-  //   new Todo(3, 'Visit philippines', false, new Date()),
-  // ];
+  todos: Todo[];
+  todo: Todo;
+  id: any;
+  isEdit = false;
 
   username: any;
   successfullMessage: any;
 
   constructor(
     private todoService: TodoDataService,
+    private router: Router
   ) { }
 
   ngOnInit() {
-   this.refreshTodoList();
+    this.refreshTodoList();
   }
 
   refreshTodoList() {
@@ -42,15 +44,53 @@ todos: Todo[];
     });
   }
 
+  routeUpdateTodo(id) {
+    this.router.navigate(['todos', id]);
+
+  }
+
   deleteTodo(id) {
-    this.todoService.deleteTodoById( 'norbert', id).subscribe(response => {
+    this.todoService.deleteTodoById('norbert', id).subscribe(response => {
       this.successfullMessage = `delete of todo item with id ${id} is Successfull`;
       this.refreshTodoList();
     });
   }
 
-  updateTodo(id) {
-    console.log('...................... ', id);
+  open(todo) {
+    this.todo = new Todo(todo.id, '', false, new Date());
+    this.todoService.retrieveTOdosById(this.username, todo.id).subscribe(data => {
+      this.todo = data;
+    });
+  }
+
+  showModal(row: any) {
+    this.isEdit = true;
+    Object.keys(row).forEach(key => {
+      this.todos[key] = row[key];
+      console.log('1111111111111111111111111 ', this.todos[key]);
+    });
+  }
+
+  savingTodo(form: NgForm) {
+    console.log('11111111111111111111111111 ', form);
+    this.todoService.createTodos('norbert', this.todo).subscribe(data => {
+      console.log(data);
+      this.successfullMessage = `you have created todo in the list`;
+      this.refreshTodoList();
+    });
+  }
+
+  save(todos) {
+   // console.log('0000000000000000000 ', form.value);
+    console.log('111111111111111111 ', todos);
+    if (this.isEdit) {
+      console.log('222222222222222222 ', todos);
+      this.todoService.updateTOdosById('norbert', todos, todos).subscribe(data => {
+        this.successfullMessage = `update of todo item with id ${todos} is Successfull`;
+        this.refreshTodoList();
+        console.log('3333333333333333333333 ', data);
+      });
+    }
   }
 
 }
